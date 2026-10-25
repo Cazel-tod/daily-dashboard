@@ -1,0 +1,88 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: sqlite3, xml, mbstring, intl, opcache
+          tools: composer:v2
+
+      - name: Install dependencies (prod only)
+        working-directory: backend
+        run: composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+      - name: Package backend
+        working-directory: backend
+        run: |
+          mkdir -p /tmp/package/backend
+          rsync -a --exclude='var/cache' --exclude='var/log' --exclude='.env.local' --exclude='var/data_*.db' ./ /tmp/package/backend/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backend-build
+          path: /tmp/package/backend
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build (production)
+        working-directory: frontend
+        run: npx ng build --configuration production
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontend/dist/frontend/browser
+
+  deploy:
+    needs: [build-backend, build-frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: backend-build
+          path: /tmp/release/backend
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: frontend-build
+          path: /tmp/release/frontend-dist
+
+      - name: Join tailnet
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-client-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+          tags: tag:ci
+          version: latest
+
+      - name: Deploy over SSH
+        run: |
+          install -m 600 /dev/null /tmp/deploy_key
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > /tmp/deploy_key
+          tar -cf - -C /tmp/release backend frontend-dist | \
+            ssh -i /tmp/deploy_key -o StrictHostKeyChecking=accept-new \
+                templier@${{ vars.TAILSCALE_HOSTNAME }}
+          rm -f /tmp/deploy_key
