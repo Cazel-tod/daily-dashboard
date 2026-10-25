@@ -1,0 +1,58 @@
+<main class="status-page">
+  <h1>État de Protoss</h1>
+
+  @if (loading()) {
+    <p class="hint">Chargement…</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+    <button (click)="fetchStatus()">Réessayer</button>
+  } @else if (status(); as s) {
+    <section class="grid">
+      <article class="card">
+        <h2>Système</h2>
+        <p>Hostname : <strong>{{ s.hostname }}</strong></p>
+        <p>Uptime : <strong>{{ formatUptime(s.uptimeSeconds) }}</strong></p>
+        <p>Démarré le : <strong>{{ s.bootTime ? (s.bootTime | date: 'short') : '—' }}</strong></p>
+      </article>
+
+      <article class="card">
+        <h2>CPU</h2>
+        <p>Température : <strong>{{ s.cpu.temperatureC !== null ? s.cpu.temperatureC + ' °C' : '—' }}</strong></p>
+        <p>Charge (1/5/15 min) :
+          <strong>{{ s.cpu.loadAverage ? s.cpu.loadAverage.map(l => l.toFixed(2)).join(' / ') : '—' }}</strong>
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Mémoire</h2>
+        <p>{{ s.memory.usedMB }} / {{ s.memory.totalMB }} Mo ({{ s.memory.usedPercent ?? '—' }}%)</p>
+        <progress [value]="s.memory.usedPercent ?? 0" max="100"></progress>
+      </article>
+
+      <article class="card">
+        <h2>Swap</h2>
+        <p>{{ s.swap.usedMB }} / {{ s.swap.totalMB }} Mo ({{ s.swap.usedPercent ?? '—' }}%)</p>
+        <progress [value]="s.swap.usedPercent ?? 0" max="100"></progress>
+      </article>
+
+      <article class="card">
+        <h2>Disque</h2>
+        <p>{{ s.disk.usedGB }} / {{ s.disk.totalGB }} Go ({{ s.disk.usedPercent }}%)</p>
+        <progress [value]="s.disk.usedPercent" max="100"></progress>
+      </article>
+
+      <article class="card">
+        <h2>Réseau</h2>
+        @if (s.network; as net) {
+          <p>Interface : <strong>{{ net.interface }}</strong></p>
+          <p>Reçu : <strong>{{ formatBytes(net.rxBytes) }}</strong></p>
+          <p>Envoyé : <strong>{{ formatBytes(net.txBytes) }}</strong></p>
+        } @else {
+          <p>—</p>
+        }
+      </article>
+    </section>
+
+    <button (click)="fetchStatus()">Rafraîchir</button>
+  }
+</main>

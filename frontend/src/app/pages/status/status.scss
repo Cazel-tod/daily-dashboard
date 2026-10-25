@@ -1,0 +1,32 @@
+.status-page {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+
+  h2 {
+    margin-top: 0;
+    font-size: 1rem;
+  }
+
+  progress {
+    width: 100%;
+  }
+}
+
+.error {
+  color: #c0392b;
+}
