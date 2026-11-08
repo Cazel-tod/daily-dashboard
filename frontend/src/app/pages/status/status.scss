@@ -13,9 +13,10 @@
 }
 
 .card {
-  border: 1px solid #ddd;
+  border: 1px solid var(--card-border);
   border-radius: 8px;
   padding: 1rem;
+  background: var(--card-bg);
 
   h2 {
     margin-top: 0;
@@ -28,5 +29,5 @@
 }
 
 .error {
-  color: #c0392b;
+  color: var(--error);
 }
