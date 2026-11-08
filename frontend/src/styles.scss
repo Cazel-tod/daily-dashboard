@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --bg: #121212;
+  --fg: #f0f0f0;
+  --card-bg: #1e1e1e;
+  --card-border: #333333;
+  --error: #ff6b6b;
+}
+
+[data-theme='light'] {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --card-bg: #ffffff;
+  --card-border: #dddddd;
+  --error: #c0392b;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+}

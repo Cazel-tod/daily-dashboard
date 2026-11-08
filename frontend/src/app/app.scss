@@ -1,0 +1,21 @@
+.app-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 1rem;
+}
+
+.theme-toggle {
+  min-width: 48px;
+  min-height: 48px;
+  font-size: 1.5rem;
+  line-height: 1;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: var(--card-bg);
+  color: var(--fg);
+  cursor: pointer;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
