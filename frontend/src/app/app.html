@@ -1,13 +1,5 @@
-<header class="app-header">
-  <button
-    type="button"
-    class="theme-toggle"
-    (click)="themeService.toggle()"
-    [attr.aria-pressed]="themeService.theme() === 'dark'"
-    aria-label="Basculer le thème clair/sombre"
-  >
-    {{ themeService.theme() === 'dark' ? '☀️' : '🌙' }}
-  </button>
-</header>
+<div class="theme-toggle">
+  <db-button variant="ghost" size="lg" [icon]="themeIcon()" ariaLabel="Changer de thème" (click)="theme.toggle()" />
+</div>
 
 <router-outlet />

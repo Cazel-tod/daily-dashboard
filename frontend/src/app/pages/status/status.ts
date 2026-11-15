@@ -1,6 +1,14 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import {
+  DbButton,
+  DbDisplayCard,
+  DbDotBar,
+  DbIcon,
+  DbTag,
+  DotboardAccentRotation,
+} from '../../ui/dotboard';
 
 interface SystemStatus {
   hostname: string;
@@ -35,7 +43,7 @@ interface SystemStatus {
 }
 
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe, DbButton, DbDisplayCard, DbDotBar, DbIcon, DbTag],
   selector: 'app-status',
   styleUrl: './status.scss',
   templateUrl: './status.html',
@@ -44,6 +52,9 @@ export class Status implements OnInit {
   readonly status = signal<SystemStatus | null>(null);
   readonly error = signal<string | null>(null);
   readonly loading = signal(true);
+
+  private readonly accentRotation = inject(DotboardAccentRotation);
+  readonly accentTone = computed(() => this.accentRotation.tone());
 
   constructor(private readonly http: HttpClient) {}
 

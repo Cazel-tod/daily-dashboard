@@ -1,0 +1,166 @@
+
+
+/* Dotboard — generated from tokens.json */
+:root, [data-theme="light"] {
+  --surface-0: #e9e8e5; /* Fond de page du dashboard. Jamais blanc pur en clair. Les cartes (surface-1) se posent dessus. */
+  --surface-1: #f2f1ee; /* Fond des cartes d'affichage et des modales. */
+  --surface-2: #dfdeda; /* Aplat de distinction : boutons secondaires, zones encastrées dans une carte, pistes de graphiques. */
+  --surface-3: #d2d1cc; /* Aplat le plus marqué : points éteints des graphiques, séparations entre blocs voisins. Pas de texte courant dessus. */
+  --ink: #17171a; /* Texte principal et icônes sur surface-0, surface-1, surface-2 et surface-3. Sert aussi de fond à l'état pressé. */
+  --ink-muted: #54545b; /* Texte secondaire (libellés, légendes) sur surface-0, surface-1, surface-2 et surface-3, au moins 4,5:1 dans les deux thèmes. */
+  --accent: var(--sig-cyan); /* L'accent retenu : le cyan franc de sig-cyan (#00A6D6). Petit carré de repère par défaut, jamais un aplat. */
+  --on-accent: #0b1d21; /* Texte et icônes posés sur accent ou sig-cyan (rare : un tout petit badge), dans les deux thèmes (plus de 6:1). */
+  --accent-ink: #08616f; /* Accent utilisé comme texte ou icône (pas comme fond) sur surface-0 à surface-3. Au moins 4,5:1 dans les deux thèmes. */
+  --focus: #08616f; /* Anneau de focus : contour plein de 3 px, décalé de 2 px, sur toutes les surfaces. Au moins 3:1 dans les deux thèmes. */
+  --danger: #d71921; /* Rouge Nothing. Fond des alertes critiques : carte ou bouton de danger. Texte dessus : on-danger. À réserver aux états d'alerte, jamais décoratif. */
+  --on-danger: #ffffff; /* Texte et icônes sur danger : blanc en clair, quasi noir en sombre (plus de 5:1). */
+  --danger-ink: #c0141c; /* Rouge utilisé comme texte ou icône sur surface-0, surface-1 et surface-2. Toujours accompagné d'un mot ou d'une icône d'alerte. */
+  --warning: #f2b84b; /* Fond d'un avertissement. Texte dessus : on-warning. */
+  --on-warning: #17171a; /* Texte et icônes sur warning, dans les deux thèmes. */
+  --warning-ink: #8a5300; /* Ambre utilisé comme texte ou icône sur surface-0, surface-1 et surface-2 (pas surface-3 en clair). Accompagné d'un mot ou d'une icône. */
+  --sig-cyan: #00a6d6; /* Couleur de signal cyan flashy : fond d'un menu, d'un onglet actif ou d'une carte à mettre en avant. Texte dessus : on-signal. L'accent par défaut (accent) pointe vers elle. */
+  --sig-orange: #ff5f1f; /* Couleur de signal orange : complète le cyan pour distinguer un menu ou une catégorie (énergie, par exemple). Texte dessus : on-signal. */
+  --sig-blue: #15a3c7; /* Couleur de signal bleu : un menu ou une catégorie de plus. Très proche de sig-cyan : ne place pas les deux côte à côte. Texte dessus : on-signal. */
+  --sig-yellow: #f5c71a; /* Couleur de signal jaune, vue sur des produits Nothing et CMF : un menu ou une catégorie (lumières, par exemple). Texte dessus : on-signal. */
+  --on-signal: #17171a; /* Texte et icônes sur sig-cyan, sig-orange, sig-blue et sig-yellow, dans les deux thèmes (plus de 5,8:1). */
+  --sig-cyan-ink: #00698a; /* Cyan utilisé comme texte ou icône sur surface-0, surface-1 et surface-2 (pas surface-3 en clair). Au moins 4,5:1. */
+  --sig-orange-ink: #a83700; /* Orange utilisé comme texte ou icône sur surface-0, surface-1 et surface-2 (pas surface-3 en clair). Au moins 4,5:1. */
+  --sig-blue-ink: #0b6680; /* Bleu utilisé comme texte ou icône sur surface-0, surface-1 et surface-2 (pas surface-3 en clair). Au moins 4,5:1. */
+  --sig-yellow-ink: #7a5c00; /* Jaune utilisé comme texte ou icône sur surface-0, surface-1 et surface-2 (pas surface-3 en clair). Au moins 4,5:1. */
+  --scrim: #17171ab3; /* Voile derrière une modale. Décoratif, aucun texte dessus. */
+  --shadow-raised: 0 12px 32px 0 #17171a33; /* Ombre neutre sous un élément posé au-dessus de l'écran : la modale. C'est la seule ombre du système ; les cartes et boutons restent plats. */
+}
+[data-theme="dark"] {
+  --surface-0: #121315;
+  --surface-1: #1c1d20;
+  --surface-2: #27282c;
+  --surface-3: #34353a;
+  --ink: #ededea;
+  --ink-muted: #a6a6ad;
+  --accent: var(--sig-cyan);
+  --on-accent: #0b1d21;
+  --accent-ink: #7fd6e3;
+  --focus: #7fd6e3;
+  --danger: #ff4b52;
+  --on-danger: #14090a;
+  --danger-ink: #ff7479;
+  --warning: #f2b84b;
+  --on-warning: #17171a;
+  --warning-ink: #f2b84b;
+  --sig-cyan: #00a6d6;
+  --sig-orange: #ff5f1f;
+  --sig-blue: #15a3c7;
+  --sig-yellow: #f5c71a;
+  --on-signal: #17171a;
+  --sig-cyan-ink: #3dbde6;
+  --sig-orange-ink: #ff7a45;
+  --sig-blue-ink: #4dc3e0;
+  --sig-yellow-ink: #f5c71a;
+  --scrim: #000000b3;
+  --shadow-raised: 0 12px 32px 0 #000000b3;
+}
+:root {
+  --space-1: 4px; /* Écart entre un point et son libellé, entre deux icônes serrées. */
+  --space-2: 8px; /* Écart entre icône et texte dans un bouton. */
+  --space-3: 12px; /* Écart entre lignes d'une même carte. */
+  --space-4: 16px; /* Écart minimum entre deux zones tactiles voisines. */
+  --space-5: 24px; /* Padding des cartes, écart entre cartes d'une grille. */
+  --space-6: 32px; /* Padding des modales et marges d'écran. */
+  --space-7: 48px; /* Écart entre grands groupes de blocs. */
+  --space-8: 64px; /* Marges extérieures d'un écran large. */
+  --touch-min: 44px; /* Côté minimum de toute zone tactile. Aucune exception. */
+  --touch-comfort: 56px; /* Côté recommandé pour les boutons principaux et le bouton de fermeture de modale. */
+  --radius-sm: 4px; /* Pastilles de statut, petits aplats. */
+  --radius-md: 8px; /* Boutons et cartes d'affichage : adoucit sans arrondir en pilule. */
+  --radius-lg: 12px; /* Modales. */
+  --radius-dot: 50%; /* Points et pastilles d'état parfaitement ronds. */
+  --font-display: "Ndot57", "Courier New", monospace;
+  --font-caps: "Ndot57Caps", "Courier New", monospace;
+  --font-sans: "NType82", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "NType82Mono", ui-monospace, "Courier New", monospace;
+  --text-display-xl: 400 72px/72px var(--font-display); /* Chiffre clé principal d'un écran : heure, valeur dominante. Une seule fois par écran. */
+  --text-display-lg: 400 48px/48px var(--font-display); /* Valeur d'une carte d'affichage. */
+  --text-display-md: 400 32px/40px var(--font-display); /* Titres d'écran et de modale. */
+  --text-label-mono: 400 15px/22px var(--font-mono); /* Libellés de cartes, étiquettes de catégorie, mots d'état, en capitales. Police mono Nothing, 15 px minimum. */
+  --text-text-lg: 400 22px/30px var(--font-sans); /* Sous-titres, texte des boutons larges. */
+  --text-text: 400 18px/26px var(--font-sans); /* Texte courant, texte des boutons. */
+  --text-text-sm: 400 15px/22px var(--font-sans); /* Légendes de cartes, unités, détails. Taille minimale du texte courant. */
+}
+.display-xl {
+  font-family: var(--font-display);
+  font-size: 72px;
+  line-height: 72px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 48px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.display-md {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+.text-lg {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.text {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.text-sm {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+@font-face {
+  font-family: "NType82";
+  src: url("fonts/NType82-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ndot57";
+  src: url("fonts/Ndot57-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Ndot57Caps";
+  src: url("fonts/Ndot57Caps-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NType82Mono";
+  src: url("fonts/NType82Mono-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
