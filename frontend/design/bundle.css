@@ -1,0 +1,504 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--surface-0);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 18px;
+    line-height: 26px;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* ---------- disposition ---------- */
+.db-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-5);
+}
+
+.db-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-5);
+}
+
+.db-note {
+    font: 400 15px/22px var(--font-sans);
+    color: var(--ink-muted);
+}
+
+.db-screen {
+    position: relative;
+    width: 1440px;
+    height: 960px;
+    overflow: hidden;
+    background: var(--surface-0);
+    color: var(--ink);
+    padding: var(--space-6) var(--space-7);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.db-screen__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+}
+
+.db-screen__title {
+    margin: 0;
+    font: 400 32px/40px var(--font-display);
+    color: var(--ink);
+}
+
+.db-screen__date {
+    font: 400 15px/22px var(--font-mono);
+    letter-spacing: 1px;
+    color: var(--ink-muted);
+}
+
+.db-screen__clock {
+    font: 400 72px/72px var(--font-display);
+    color: var(--ink);
+}
+
+.db-nav {
+    display: flex;
+    gap: var(--space-4);
+}
+
+.db-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+}
+
+.db-grid--tri {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.db-span-2 {
+    grid-column: span 2;
+}
+
+/* ---------- couleurs de signal : de petites touches, jamais un aplat ---------- */
+.db-tone-accent {
+    --tone: var(--accent);
+}
+
+.db-tone-cyan {
+    --tone: var(--sig-cyan);
+}
+
+.db-tone-orange {
+    --tone: var(--sig-orange);
+}
+
+.db-tone-blue {
+    --tone: var(--sig-blue);
+}
+
+.db-tone-yellow {
+    --tone: var(--sig-yellow);
+}
+
+.db-tone-red {
+    --tone: var(--danger);
+}
+
+.db-ink-cyan {
+    color: var(--sig-cyan-ink);
+}
+
+.db-ink-orange {
+    color: var(--sig-orange-ink);
+}
+
+.db-ink-blue {
+    color: var(--sig-blue-ink);
+}
+
+.db-ink-yellow {
+    color: var(--sig-yellow-ink);
+}
+
+/* le petit carré de couleur : repère de catégorie, de menu ou d'alerte */
+.db-mark {
+    display: inline-block;
+    flex: none;
+    width: 12px;
+    height: 12px;
+    background: var(--tone, var(--accent));
+}
+
+/* texture : champ de points, comme la matrice du dos du Nothing Phone (3) */
+.db-dotfield {
+    background-image: radial-gradient(circle, var(--surface-3) 1.5px, transparent 1.6px);
+    background-size: 16px 16px;
+}
+
+/* ---------- icône ---------- */
+.db-icon {
+    display: block;
+    flex: none;
+}
+
+/* ---------- bouton ---------- */
+.db-btn {
+    appearance: none;
+    border: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    color: var(--ink);
+    font: 400 18px/24px var(--font-sans);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.db-btn--lg {
+    min-height: 56px;
+    min-width: 56px;
+    padding: 0 var(--space-6);
+    font-size: 22px;
+    line-height: 30px;
+}
+
+.db-btn--icon {
+    padding: 0;
+}
+
+.db-btn--primary {
+    background: var(--ink);
+    color: var(--surface-0);
+}
+
+.db-btn--ghost {
+    background: transparent;
+    color: var(--ink);
+}
+
+.db-btn--danger {
+    box-shadow: inset 0 0 0 2px var(--danger);
+}
+
+.db-btn.has-mark::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: var(--tone, var(--accent));
+    flex: none;
+}
+
+.db-btn.is-active {
+    box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+.db-btn:active,
+.db-btn.is-pressed {
+    background: var(--surface-3);
+    box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+.db-btn--primary:active,
+.db-btn--primary.is-pressed {
+    background: var(--ink-muted);
+    color: var(--surface-0);
+    box-shadow: none;
+}
+
+.db-btn:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.db-btn:disabled {
+    background: var(--surface-2);
+    color: var(--ink-muted);
+    box-shadow: none;
+    opacity: .55;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ---------- carte d'affichage ---------- */
+.db-card {
+    appearance: none;
+    border: 0;
+    margin: 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-3);
+    width: 100%;
+    min-height: 176px;
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--surface-1);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button.db-card {
+    cursor: pointer;
+}
+
+.db-card--danger {
+    box-shadow: inset 0 0 0 2px var(--danger);
+}
+
+button.db-card:active,
+.db-card.is-pressed {
+    background: var(--surface-3);
+    box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+button.db-card:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.db-card__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.db-card__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font: 400 15px/22px var(--font-mono);
+    letter-spacing: 1px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+}
+
+.db-card__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font: 400 15px/22px var(--font-mono);
+    letter-spacing: 1px;
+    color: var(--ink);
+}
+
+.db-card--danger .db-card__status {
+    color: var(--danger-ink);
+}
+
+.db-card__status::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background: var(--tone, var(--accent));
+}
+
+.db-card__value {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    font: 400 48px/48px var(--font-display);
+}
+
+.db-card--lg .db-card__value {
+    font-size: 72px;
+    line-height: 72px;
+}
+
+.db-card__unit {
+    font: 400 18px/26px var(--font-sans);
+}
+
+.db-card__foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-3);
+    font: 400 15px/22px var(--font-sans);
+    color: var(--ink-muted);
+}
+
+.db-card__body {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+}
+
+/* ---------- étiquette de catégorie et séparateur ---------- */
+.db-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: 32px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--surface-2);
+    color: var(--ink);
+    font: 400 15px/22px var(--font-mono);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.db-tag .db-mark {
+    width: 8px;
+    height: 8px;
+}
+
+.db-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+}
+
+.db-divider .db-mark {
+    width: 8px;
+    height: 8px;
+}
+
+.db-divider::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: var(--surface-3);
+    margin-left: var(--space-1);
+}
+
+/* ---------- modale ---------- */
+.db-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-6);
+    background: var(--scrim);
+}
+
+.db-scrim.is-contained {
+    position: absolute;
+}
+
+.db-modal {
+    width: 100%;
+    max-width: 720px;
+    max-height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    border-radius: var(--radius-lg);
+    background: var(--surface-1);
+    color: var(--ink);
+    box-shadow: var(--shadow-raised);
+    outline: none;
+}
+
+.db-modal__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.db-modal__title {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font: 400 32px/40px var(--font-display);
+    color: var(--ink);
+}
+
+.db-modal__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.db-modal__foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-4);
+}
+
+/* ---------- détails dans une modale ---------- */
+.db-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+}
+
+.db-stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+}
+
+.db-stat__label {
+    font: 400 15px/22px var(--font-mono);
+    letter-spacing: 1px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+}
+
+.db-stat__value {
+    font: 400 32px/40px var(--font-display);
+    color: var(--ink);
+}
+
+.db-dots {
+    display: grid;
+    gap: 4px;
+    width: 100%;
+}
+
+.db-dots i {
+    display: block;
+    aspect-ratio: 1;
+    border-radius: var(--radius-dot);
+    background: var(--surface-3);
+}
+
+.db-dots i.on {
+    background: var(--ink);
+}
+
+/* ---------- disque de points (Glyph Matrix) ---------- */
+.db-glyph {
+    display: block;
+    flex: none;
+    color: var(--ink);
+}

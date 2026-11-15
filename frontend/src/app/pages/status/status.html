@@ -1,58 +1,98 @@
 <main class="status-page">
-  <h1>État de Protoss</h1>
+  <header class="status-page__head">
+    <h1 class="display-md">État de Protoss</h1>
+    <db-tag tone="none">SURVEILLANCE</db-tag>
+  </header>
 
   @if (loading()) {
-    <p class="hint">Chargement…</p>
+    <p class="text-sm db-note">Chargement…</p>
   } @else if (error()) {
-    <p class="error">{{ error() }}</p>
-    <button (click)="fetchStatus()">Réessayer</button>
+    <div class="status-page__alert">
+      <db-icon name="alert" [size]="32" label="Alerte" />
+      <div class="status-page__alert-text">
+        <db-tag tone="none">ALERTE</db-tag>
+        <p class="text">{{ error() }}</p>
+      </div>
+      <db-button variant="primary" label="Réessayer" (click)="fetchStatus()" />
+    </div>
   } @else if (status(); as s) {
-    <section class="grid">
-      <article class="card">
-        <h2>Système</h2>
-        <p>Hostname : <strong>{{ s.hostname }}</strong></p>
-        <p>Uptime : <strong>{{ formatUptime(s.uptimeSeconds) }}</strong></p>
-        <p>Démarré le : <strong>{{ s.bootTime ? (s.bootTime | date: 'short') : '—' }}</strong></p>
-      </article>
+    <section class="db-grid db-grid--tri">
+      <db-display-card label="SYSTÈME" icon="home" [tone]="accentTone()" texture="dotfield">
+        <dl class="status-page__facts">
+          <div>
+            <dt class="text-sm db-note">Hostname</dt>
+            <dd class="text">{{ s.hostname }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm db-note">Uptime</dt>
+            <dd class="text">{{ formatUptime(s.uptimeSeconds) }}</dd>
+          </div>
+          <div>
+            <dt class="text-sm db-note">Démarré</dt>
+            <dd class="text">{{ s.bootTime ? (s.bootTime | date: 'short') : '—' }}</dd>
+          </div>
+        </dl>
+      </db-display-card>
 
-      <article class="card">
-        <h2>CPU</h2>
-        <p>Température : <strong>{{ s.cpu.temperatureC !== null ? s.cpu.temperatureC + ' °C' : '—' }}</strong></p>
-        <p>Charge (1/5/15 min) :
-          <strong>{{ s.cpu.loadAverage ? s.cpu.loadAverage.map(l => l.toFixed(2)).join(' / ') : '—' }}</strong>
-        </p>
-      </article>
+      <db-display-card
+        label="CPU"
+        icon="thermometer"
+        [tone]="accentTone()"
+        texture="arc"
+        [value]="s.cpu.temperatureC !== null ? s.cpu.temperatureC : '—'"
+        [unit]="s.cpu.temperatureC !== null ? '°C' : ''"
+        [caption]="s.cpu.loadAverage ? 'charge ' + s.cpu.loadAverage.map(l => l.toFixed(2)).join(' / ') : 'charge —'"
+      />
 
-      <article class="card">
-        <h2>Mémoire</h2>
-        <p>{{ s.memory.usedMB }} / {{ s.memory.totalMB }} Mo ({{ s.memory.usedPercent ?? '—' }}%)</p>
-        <progress [value]="s.memory.usedPercent ?? 0" max="100"></progress>
-      </article>
+      <db-display-card
+        label="MÉMOIRE"
+        [tone]="accentTone()"
+        texture="gradient"
+        [caption]="s.memory.usedMB + ' / ' + s.memory.totalMB + ' Mo'"
+      >
+        <db-dot-bar [value]="s.memory.usedPercent ?? 0" [count]="24" [label]="(s.memory.usedPercent ?? 0) + ' %'" />
+      </db-display-card>
 
-      <article class="card">
-        <h2>Swap</h2>
-        <p>{{ s.swap.usedMB }} / {{ s.swap.totalMB }} Mo ({{ s.swap.usedPercent ?? '—' }}%)</p>
-        <progress [value]="s.swap.usedPercent ?? 0" max="100"></progress>
-      </article>
+      <db-display-card
+        label="SWAP"
+        [tone]="accentTone()"
+        texture="dotfield"
+        [caption]="s.swap.usedMB + ' / ' + s.swap.totalMB + ' Mo'"
+      >
+        <db-dot-bar [value]="s.swap.usedPercent ?? 0" [count]="24" [label]="(s.swap.usedPercent ?? 0) + ' %'" />
+      </db-display-card>
 
-      <article class="card">
-        <h2>Disque</h2>
-        <p>{{ s.disk.usedGB }} / {{ s.disk.totalGB }} Go ({{ s.disk.usedPercent }}%)</p>
-        <progress [value]="s.disk.usedPercent" max="100"></progress>
-      </article>
+      <db-display-card
+        label="DISQUE"
+        [tone]="accentTone()"
+        texture="arc"
+        [caption]="s.disk.usedGB + ' / ' + s.disk.totalGB + ' Go'"
+      >
+        <db-dot-bar [value]="s.disk.usedPercent" [count]="24" [label]="s.disk.usedPercent + ' %'" />
+      </db-display-card>
 
-      <article class="card">
-        <h2>Réseau</h2>
+      <db-display-card label="RÉSEAU" icon="wifi" [tone]="accentTone()" texture="gradient">
         @if (s.network; as net) {
-          <p>Interface : <strong>{{ net.interface }}</strong></p>
-          <p>Reçu : <strong>{{ formatBytes(net.rxBytes) }}</strong></p>
-          <p>Envoyé : <strong>{{ formatBytes(net.txBytes) }}</strong></p>
+          <dl class="status-page__facts">
+            <div>
+              <dt class="text-sm db-note">Interface</dt>
+              <dd class="text">{{ net.interface }}</dd>
+            </div>
+            <div>
+              <dt class="text-sm db-note">Reçu</dt>
+              <dd class="text">{{ formatBytes(net.rxBytes) }}</dd>
+            </div>
+            <div>
+              <dt class="text-sm db-note">Envoyé</dt>
+              <dd class="text">{{ formatBytes(net.txBytes) }}</dd>
+            </div>
+          </dl>
         } @else {
-          <p>—</p>
+          <p class="text-sm db-note">—</p>
         }
-      </article>
+      </db-display-card>
     </section>
 
-    <button (click)="fetchStatus()">Rafraîchir</button>
+    <db-button variant="primary" label="Rafraîchir" (click)="fetchStatus()" />
   }
 </main>

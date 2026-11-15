@@ -1,0 +1,111 @@
+/* Additions projet, pas encore promues dans le design system Dotboard source (design/bundle.css). */
+
+/* Les composants Angular Dotboard sont des wrappers autour d'un seul élément visuel :
+   en display: contents, ils n'ajoutent pas de boîte qui casserait une grille ou un flex parent. */
+db-display-card,
+db-button,
+db-tag,
+db-divider,
+db-modal,
+db-glyph-matrix,
+db-dot-bar,
+db-icon {
+  display: contents;
+}
+
+/* db-tag est un wrapper display:contents : sans ceci, un parent flex en colonne
+   l'étire sur tout l'axe croisé (align-items: stretch par défaut). */
+.db-tag {
+  align-self: flex-start;
+}
+
+/* db-dot-bar : rangée de points pour une jauge (mémoire, swap, disque), alternative
+   au disque GlyphMatrix. Écart resserré (gap réduit) et points plafonnés, quelle que soit la largeur de carte. */
+.db-dots--row {
+  gap: 2px;
+}
+
+.db-dots--row i {
+  width: 100%;
+  max-width: 12px;
+  margin-inline: auto;
+}
+
+/* Texture de fond de carte : nuage de points, version carte (plus fine que le db-dotfield plein écran). */
+.db-tex-dotfield {
+  background-image: radial-gradient(circle, var(--surface-3) 1.5px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+
+/* Texture de fond de carte : 20 arcs concentriques façon compas (dos du Nothing Phone (3)),
+   ancrés sur l'arête droite, confinés à la moitié de la carte (::before fait exactement 50% de large).
+   Rayon du n-ième anneau = --card-h * coef(n), coef calé pour que le dernier anneau (20) ait un diamètre
+   = hauteur de la carte. --card-h est posé en JS (hauteur variable selon le contenu).
+   z-index négatif : sans ça, le ::before absolument positionné passe au-dessus du contenu normal de la carte. */
+.db-tex-arc {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.db-tex-arc::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.00947 - 1px), var(--surface-3) calc(var(--card-h) * 0.00947), transparent calc(var(--card-h) * 0.00947 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.02199 - 1px), var(--surface-3) calc(var(--card-h) * 0.02199), transparent calc(var(--card-h) * 0.02199 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.03754 - 1px), var(--surface-3) calc(var(--card-h) * 0.03754), transparent calc(var(--card-h) * 0.03754 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.05615 - 1px), var(--surface-3) calc(var(--card-h) * 0.05615), transparent calc(var(--card-h) * 0.05615 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.07779 - 1px), var(--surface-3) calc(var(--card-h) * 0.07779), transparent calc(var(--card-h) * 0.07779 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.10248 - 1px), var(--surface-3) calc(var(--card-h) * 0.10248), transparent calc(var(--card-h) * 0.10248 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.13022 - 1px), var(--surface-3) calc(var(--card-h) * 0.13022), transparent calc(var(--card-h) * 0.13022 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.16100 - 1px), var(--surface-3) calc(var(--card-h) * 0.16100), transparent calc(var(--card-h) * 0.16100 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.19482 - 1px), var(--surface-3) calc(var(--card-h) * 0.19482), transparent calc(var(--card-h) * 0.19482 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.23169 - 1px), var(--surface-3) calc(var(--card-h) * 0.23169), transparent calc(var(--card-h) * 0.23169 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.27160 - 1px), var(--surface-3) calc(var(--card-h) * 0.27160), transparent calc(var(--card-h) * 0.27160 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.31455 - 1px), var(--surface-3) calc(var(--card-h) * 0.31455), transparent calc(var(--card-h) * 0.31455 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.36055 - 1px), var(--surface-3) calc(var(--card-h) * 0.36055), transparent calc(var(--card-h) * 0.36055 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.40960 - 1px), var(--surface-3) calc(var(--card-h) * 0.40960), transparent calc(var(--card-h) * 0.40960 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.46168 - 1px), var(--surface-3) calc(var(--card-h) * 0.46168), transparent calc(var(--card-h) * 0.46168 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.51682 - 1px), var(--surface-3) calc(var(--card-h) * 0.51682), transparent calc(var(--card-h) * 0.51682 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.57499 - 1px), var(--surface-3) calc(var(--card-h) * 0.57499), transparent calc(var(--card-h) * 0.57499 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.63621 - 1px), var(--surface-3) calc(var(--card-h) * 0.63621), transparent calc(var(--card-h) * 0.63621 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.70047 - 1px), var(--surface-3) calc(var(--card-h) * 0.70047), transparent calc(var(--card-h) * 0.70047 + 1px), transparent 100%),
+    radial-gradient(circle at 100% 50%, transparent calc(var(--card-h) * 0.76778 - 1px), var(--surface-3) calc(var(--card-h) * 0.76778), transparent calc(var(--card-h) * 0.76778 + 1px), transparent 100%);
+}
+
+/* Texture de fond de carte : bande de 5 nuances le long du bord gauche, façon dégradé
+   découpé en carrés (bord blanc du Nothing Phone (3)). Nuances dérivées des tokens, pas de hex en dur.
+   Ancré sur --ink (quasi blanc en sombre, quasi noir en clair) : la direction s'inverse
+   automatiquement entre les deux thèmes, sans couleur en dur à gérer par thème.
+   z-index négatif : même raison que .db-tex-arc::before, pour rester sous le contenu de la carte. */
+.db-tex-gradient {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.db-tex-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--ink) 7%, var(--surface-1)) 0% 20%,
+    color-mix(in srgb, var(--ink) 16%, var(--surface-1)) 20% 40%,
+    color-mix(in srgb, var(--ink) 26%, var(--surface-1)) 40% 60%,
+    color-mix(in srgb, var(--ink) 36%, var(--surface-1)) 60% 80%,
+    color-mix(in srgb, var(--ink) 48%, var(--surface-1)) 80% 100%
+  );
+}
